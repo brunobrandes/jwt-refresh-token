@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Constants\" />
+    <None Remove="DataTransferObjects\" />
+    <None Remove="Entities\" />
+    <None Remove="Entities\Repositories\" />
+    <None Remove="Enums\" />
+    <None Remove="Services\" />
+    <None Remove="Services\Interfaces\" />
+    <None Remove="Extensions\" />
+    <None Remove="Configurations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Constants\" />
+    <Folder Include="DataTransferObjects\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Entities\Repositories\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Configurations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="System.Text.Json" Version="7.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Services\Interfaces\IAlgorithmService.cs" />
+    <Compile Remove="Configurations\JwtRefreshTokenAlgorithmOptions.cs" />
+  </ItemGroup>
+</Project>
