@@ -41,7 +41,7 @@ User container is optional. If you want control user data with Jwt Refresh Token
 user data control, just implement IUserRepository for get user by id and password.
 
 2. ✯ Configure settings app:
-```
+```json
 "JwtRefreshTokenDescriptor": {
     "AlgorithmKey": "YOUR_ALGORITHM_KEY",
     "Issuer": "YOUR_ISSUER",
@@ -60,7 +60,7 @@ user data control, just implement IUserRepository for get user by id and passwor
 ```
 
 3. ✯ Configure startup app:
-```
+```csharp
 // [required] Add jwt domain services
 builder.Services.AddJwtRefreshTokenServices(builder.Configuration);
 
@@ -69,6 +69,34 @@ builder.Services.AddJwtRefreshTokenCosmosServices(builder.Configuration);
 
 // [optional]  Bind util token expires config
 builder.Services.BindJwtRefreshTokenExpiresOptions(builder.Configuration);
+
+// [required] AspNetCore Authentication config
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    // choose your bearer config 
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = true;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+              .GetBytes(builder.Configuration.GetValue<string>("JwtRefreshTokenDescriptor:AlgorithmKey"))),
+            ValidateIssuer = true,
+            ValidateAudience = true
+        };
+    });
+
+// [required] AspNetCore Authentication config
+builder.Services
+    .AddAuthorization(auth =>
+    {
+        auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+            .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+            .RequireAuthenticatedUser().Build());
+    });
 ```
-
-
