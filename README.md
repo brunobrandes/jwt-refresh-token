@@ -100,3 +100,49 @@ builder.Services
             .RequireAuthenticatedUser().Build());
     });
 ```
+
+4. ✯ Create token controller
+
+Creating token controler to management token, might look something like this:
+
+```csharp
+private string GetRemoteIpAddress()
+{
+    return this.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+}
+
+[HttpPost("")]
+public async Task<IActionResult> PostAsync([FromForm] string userId, [FromForm] string password, CancellationToken cancellationToken)
+{
+   var token = await _tokenAppService.CreateAsync(userId, password, _jwtRefreshTokenExpiresOptions.Value.CreateMilliseconds,
+        GetRemoteIpAddress(), cancellationToken);
+
+   return new TokenResult(token);
+}
+
+[Authorize("Bearer")]
+[HttpPatch("")]
+public async Task<IActionResult> RefreshAsync([FromForm] string tokenId, [FromForm] string userId, CancellationToken cancellationToken)
+{
+    var token = await _tokenAppService.RefreshAsync(tokenId, userId, _jwtRefreshTokenExpiresOptions.Value.RefreshMilliseconds,
+        GetRemoteIpAddress(), cancellationToken);
+    return new TokenResult(token);
+}
+
+[Authorize("Bearer")]
+[HttpPatch("/revoke")]
+public async Task<IActionResult> RevokeAsync([FromForm] string tokenId, [FromForm] string userId, CancellationToken cancellationToken)
+{
+    var updated = await _tokenAppService.TryRevokeAsync(tokenId, userId, GetRemoteIpAddress(), cancellationToken);
+    return Ok(new { updated = updated });
+}
+```
+
+See integration test api [here](https://github.com/brunobrandes/jwt-refresh-token/tree/main/src/Tests/Jwt.Refresh.Token.Tests.Integrations.Api)
+
+### TODO
+
+- [ ] Incrise unit test coverage
+- [ ] Create pipeline
+- [ ] Implement PostgreeSql infrastructure
+- [ ] Implement Sql Databse infrastructure
