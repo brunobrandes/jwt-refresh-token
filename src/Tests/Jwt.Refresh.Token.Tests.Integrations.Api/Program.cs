@@ -51,6 +51,7 @@ builder.Services.AddJwtRefreshTokenCosmosServices(builder.Configuration);
 // [optional]  Bind util token expires config
 builder.Services.BindJwtRefreshTokenExpiresOptions(builder.Configuration);
 
+// [required] AspNetCore Authentication config
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -70,6 +71,7 @@ builder.Services.AddAuthentication(x =>
         };
     });
 
+// [required] AspNetCore Authentication config
 builder.Services
     .AddAuthorization(auth =>
     {

@@ -26,23 +26,36 @@ public class TokenController : ControllerBase
         _jwtRefreshTokenExpiresOptions = jwtRefreshTokenExpiresOptions;
     }
 
+    private string GetRemoteIpAddress()
+    {
+        return this.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+    }
+
     [HttpPost("")]
     public async Task<IActionResult> PostAsync([FromForm] string userId, [FromForm] string password, CancellationToken cancellationToken)
     {
         var token = await _tokenAppService.CreateAsync(userId, password, _jwtRefreshTokenExpiresOptions.Value.CreateMilliseconds,
-            this.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString(), cancellationToken);
+            GetRemoteIpAddress(), cancellationToken);
 
         return new TokenResult(token);
     }
 
     [Authorize("Bearer")]
     [HttpPatch("")]
-    public async Task<IActionResult> PatchAsync([FromForm] string tokenId, [FromForm] string userId, CancellationToken cancellationToken)
+    public async Task<IActionResult> RefreshAsync([FromForm] string tokenId, [FromForm] string userId, CancellationToken cancellationToken)
     {
         var token = await _tokenAppService.RefreshAsync(tokenId, userId, _jwtRefreshTokenExpiresOptions.Value.RefreshMilliseconds,
-            this.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString(), cancellationToken);
+            GetRemoteIpAddress(), cancellationToken);
 
         return new TokenResult(token);
+    }
+
+    [Authorize("Bearer")]
+    [HttpPatch("/revoke")]
+    public async Task<IActionResult> RevokeAsync([FromForm] string tokenId, [FromForm] string userId, CancellationToken cancellationToken)
+    {
+        var updated = await _tokenAppService.TryRevokeAsync(tokenId, userId, GetRemoteIpAddress(), cancellationToken);
+        return Ok(new { updated = updated });
     }
 }
 

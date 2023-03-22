@@ -92,9 +92,7 @@ namespace Jwt.Refresh.Token.Application
                 var token = await _tokenRepository.GetByIdAndUserIdAsync(id, userId);
 
                 if (token != null)
-                {
                     return await _tokenRepository.UpdateAsync(token.ToRevokeTokenEntity(ipAddress), cancellationToken);
-                }
 
                 return false;
             }

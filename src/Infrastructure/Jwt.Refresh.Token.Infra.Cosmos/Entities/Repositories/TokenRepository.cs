@@ -6,6 +6,7 @@ using Jwt.Refresh.Token.Domain.Entities.Repositories;
 using Microsoft.Azure.Cosmos;
 using System.Linq;
 using System.Net;
+using Microsoft.Azure.Cosmos.Serialization.HybridRow.Schemas;
 
 namespace Jwt.Refresh.Token.Infra.Cosmos.Entities.Repositories
 {
@@ -23,7 +24,9 @@ namespace Jwt.Refresh.Token.Infra.Cosmos.Entities.Repositories
 
         public async Task<Domain.Entities.Token> AddAsync(Domain.Entities.Token token, CancellationToken cancellationToken = default)
         {
-                var itemResponse = await _container.CreateItemAsync(token, new PartitionKey(token.UserId), cancellationToken: cancellationToken);
+                var itemResponse = await _container.CreateItemAsync(token, new Microsoft.Azure.Cosmos.PartitionKey(token.UserId),
+                    cancellationToken: cancellationToken);
+
                 return token;            
         }
 
@@ -43,6 +46,9 @@ namespace Jwt.Refresh.Token.Infra.Cosmos.Entities.Repositories
         {
             try
             {
+                if (token.Revoked.HasValue && token.Revoked != DateTimeOffset.MinValue)
+                    token.Ttl = 1;
+
                 return await this.UpdateAsync(token, token.Id, token.UserId, cancellationToken);
             }
             catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
