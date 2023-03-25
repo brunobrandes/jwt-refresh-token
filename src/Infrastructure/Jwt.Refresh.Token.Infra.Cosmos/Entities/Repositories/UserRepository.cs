@@ -33,17 +33,14 @@ namespace Jwt.Refresh.Token.Infra.Cosmos.Entities.Repositories
             {
                 var user = await this.GetAsync(id, id);
 
-                if (user.Status == UserStatus.Deactivated)
-                    return default;
-
-                if (user.Password != password)
+                if (user.Status == UserStatus.Deactivated || user.Password != password)
                     return string.Empty;
 
                 return user.Id;
             }
             catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
             {
-                return default;
+                return string.Empty;
             }     
         }
 
