@@ -6,7 +6,7 @@
     
     <AssemblyName>Jwt.Refresh.Token.Infra.Cosmos</AssemblyName>
     <PackageId>Jwt.Refresh.Token.Cosmos</PackageId>
-    <Version>2.0.0-preview</Version>
+    <Version>2.0.1-preview</Version>
     <Authors>Bruno Brandes</Authors>
     <Product>Jwt Refresh Token Cosmos</Product>
     <Description>
@@ -34,9 +34,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Domain\Jwt.Refresh.Token.Domain\Jwt.Refresh.Token.Domain.csproj" />
+    <ProjectReference Include="..\..\Application\Jwt.Refresh.Token.Application\Jwt.Refresh.Token.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.32.2" />
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.32.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
   </ItemGroup>
