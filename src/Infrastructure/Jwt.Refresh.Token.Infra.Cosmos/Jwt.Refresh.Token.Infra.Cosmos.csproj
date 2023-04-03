@@ -3,6 +3,21 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
+    
+    <AssemblyName>Jwt.Refresh.Token.Infra.Cosmos</AssemblyName>
+    <PackageId>Jwt.Refresh.Token.Cosmos</PackageId>
+    <Version>2.0.0-preview</Version>
+    <Authors>Bruno Brandes</Authors>
+    <Product>Jwt Refresh Token Cosmos</Product>
+    <Description>
+      Jwt refresh token with Azure Cosmos DB
+    </Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/brunobrandes/jwt-refresh-token</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/brunobrandes/jwt-refresh-token</RepositoryUrl>
+    <PackageTags>dotnet azurecosmosdb jwt refreshtoken security</PackageTags>
+    <PackageIcon />
+    <PackageIconUrl />
   </PropertyGroup>
 
   <ItemGroup>
