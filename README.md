@@ -60,6 +60,13 @@ user data control, just implement IUserRepository for get user by id and passwor
 ```
 
 3. ✯ Configure startup app:
+
+Install ASP.NET Core authentication middleware
+```bash
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+```
+and configuring it in your application’s startup class file: 
+
 ```csharp
 // [required] Add jwt domain services
 builder.Services.AddJwtRefreshTokenServices(builder.Configuration);
@@ -103,38 +110,65 @@ builder.Services
 
 4. ✯ Create token controller
 
-Creating token controler to management token, might look something like this:
+Creating token controler to management token:
 
 ```csharp
-private string GetRemoteIpAddress()
+[ApiController]
+[Route("[controller]")]
+public class TokenController : ControllerBase
 {
-    return this.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
-}
+    private readonly ILogger<TokenController> _logger;
+    private readonly ITokenAppService _tokenAppService;
+    private readonly IOptionsSnapshot<JwtRefreshTokenExpiresOptions> _jwtRefreshTokenExpiresOptions;
 
-[HttpPost("")]
-public async Task<IActionResult> PostAsync([FromForm] string userId, [FromForm] string password, CancellationToken cancellationToken)
-{
-   var token = await _tokenAppService.CreateAsync(userId, password, _jwtRefreshTokenExpiresOptions.Value.CreateMilliseconds,
-        GetRemoteIpAddress(), cancellationToken);
+    public TokenController(ILogger<TokenController> logger, 
+        ITokenAppService tokenAppService,
+        IOptionsSnapshot<JwtRefreshTokenExpiresOptions> jwtRefreshTokenExpiresOptions)
+    {
+        _logger = logger;
+        _tokenAppService = tokenAppService;
+        _jwtRefreshTokenExpiresOptions = jwtRefreshTokenExpiresOptions;
+    }
 
-   return new TokenResult(token);
-}
+    private string GetRemoteIpAddress()
+    {
+        return this.Request?.HttpContext?.Connection?
+            .RemoteIpAddress?.ToString();
+    }
 
-[Authorize("Bearer")]
-[HttpPatch("")]
-public async Task<IActionResult> RefreshAsync([FromForm] string tokenId, [FromForm] string userId, CancellationToken cancellationToken)
-{
-    var token = await _tokenAppService.RefreshAsync(tokenId, userId, _jwtRefreshTokenExpiresOptions.Value.RefreshMilliseconds,
-        GetRemoteIpAddress(), cancellationToken);
-    return new TokenResult(token);
-}
+    [HttpPost("")]
+    public async Task<IActionResult> PostAsync([FromForm] string userId, 
+      [FromForm] string password, CancellationToken cancellationToken)
+    {
+        var token = await _tokenAppService.CreateAsync(userId, 
+            password, _jwtRefreshTokenExpiresOptions.Value.CreateMilliseconds,
+            GetRemoteIpAddress(), cancellationToken);
 
-[Authorize("Bearer")]
-[HttpPatch("/revoke")]
-public async Task<IActionResult> RevokeAsync([FromForm] string tokenId, [FromForm] string userId, CancellationToken cancellationToken)
-{
-    var updated = await _tokenAppService.TryRevokeAsync(tokenId, userId, GetRemoteIpAddress(), cancellationToken);
-    return Ok(new { updated = updated });
+        return new TokenResult(token);
+    }
+
+    [Authorize("Bearer")]
+    [HttpPatch("")]
+    public async Task<IActionResult> RefreshAsync([FromForm] string tokenId,
+      [FromForm] string userId, CancellationToken cancellationToken)
+    {
+        var token = await _tokenAppService.RefreshAsync(tokenId, 
+            userId, _jwtRefreshTokenExpiresOptions.Value.RefreshMilliseconds,
+            GetRemoteIpAddress(), cancellationToken);
+
+        return new TokenResult(token);
+    }
+
+    [Authorize("Bearer")]
+    [HttpPatch("/revoke")]
+    public async Task<IActionResult> RevokeAsync([FromForm] string tokenId,
+      [FromForm] string userId, CancellationToken cancellationToken)
+    {
+        var updated = await _tokenAppService.TryRevokeAsync(tokenId, 
+            userId, GetRemoteIpAddress(), cancellationToken);
+
+        return Ok(new { updated = updated });
+    }
 }
 ```
 
