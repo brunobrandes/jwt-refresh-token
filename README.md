@@ -27,9 +27,9 @@ Goal of this project is support at last 3 main Azure Databases:
 - [ ] [Azure Sql Database](https://azure.microsoft.com/en-us/products/azure-sql/database/?&ef_id=CjwKCAjwiOCgBhAgEiwAjv5whFE2R0wjiJxJRIQlHjt35KZpzb_JowGvDnAvkdSRvg5VbBaeMBlmZhoCkP0QAvD_BwE:G:s&OCID=AIDcmmzmnb0182_SEM_CjwKCAjwiOCgBhAgEiwAjv5whFE2R0wjiJxJRIQlHjt35KZpzb_JowGvDnAvkdSRvg5VbBaeMBlmZhoCkP0QAvD_BwE:G:s&gclid=CjwKCAjwiOCgBhAgEiwAjv5whFE2R0wjiJxJRIQlHjt35KZpzb_JowGvDnAvkdSRvg5VbBaeMBlmZhoCkP0QAvD_BwE) *not started*
 
 #### Cosmos DB
-To install Jwt.Refresh.Token.Cosmos, run the following command in the [.NET CLI](https://learn.microsoft.com/en-us/dotnet/core/tools/)
+To install Jwt.Refresh.Token.Cosmos *(include prereleases)*, run the following command in the [.NET CLI](https://learn.microsoft.com/en-us/dotnet/core/tools/)
 ```
-dotnet add package Jwt.Refresh.Token.Cosmos --version 2.0.0-preview
+dotnet add package Jwt.Refresh.Token.Cosmos
 ```
 ##### Usage
 
