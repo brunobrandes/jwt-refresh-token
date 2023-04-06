@@ -44,8 +44,8 @@ user data control, just implement IUserRepository for get user by id and passwor
 ```json
 "JwtRefreshTokenDescriptor": {
     "AlgorithmKey": "YOUR_ALGORITHM_KEY",
-    "Issuer": "YOUR_ISSUER",
-    "Audience": "YOUR_AUDIENCE"
+    "Issuer": "https://your-resource.com",
+    "Audience": "https://your-resource.com"
   },
   "JwtRefreshTokenExpires": {
     "CreateMilliseconds": 60000,
