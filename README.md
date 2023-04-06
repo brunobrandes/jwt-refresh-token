@@ -29,7 +29,7 @@ Goal of this project is support at last 3 main Azure Databases:
 #### Cosmos DB
 To install Jwt.Refresh.Token.Cosmos *(include prereleases)*, run the following command in the [.NET CLI](https://learn.microsoft.com/en-us/dotnet/core/tools/)
 ```
-dotnet add package Jwt.Refresh.Token.Cosmos
+dotnet add package Jwt.Refresh.Token.Cosmos --prerelease
 ```
 ##### Usage
 
