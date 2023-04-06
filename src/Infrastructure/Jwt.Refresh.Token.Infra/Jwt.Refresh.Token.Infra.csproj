@@ -3,6 +3,21 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
+
+    <AssemblyName>Jwt.Refresh.Token.Infra</AssemblyName>
+    <PackageId>Jwt.Refresh.Token.Infra</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Bruno Brandes</Authors>
+    <Product>Jwt Refresh Token Cosmos</Product>
+    <Description>
+      Jwt refresh token - Infrastructure layer
+    </Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/brunobrandes/jwt-refresh-token</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/brunobrandes/jwt-refresh-token</RepositoryUrl>
+    <PackageTags>dotnet azurecosmosdb jwt refreshtoken security</PackageTags>
+    <PackageIcon />
+    <PackageIconUrl />
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
