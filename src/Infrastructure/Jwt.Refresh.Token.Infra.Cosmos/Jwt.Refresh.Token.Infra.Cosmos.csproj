@@ -6,7 +6,7 @@
     
     <AssemblyName>Jwt.Refresh.Token.Infra.Cosmos</AssemblyName>
     <PackageId>Jwt.Refresh.Token.Cosmos</PackageId>
-    <Version>2.0.3-preview</Version>
+    <Version>2.0.4-preview</Version>
     <Authors>Bruno Brandes</Authors>
     <Product>Jwt Refresh Token Cosmos</Product>
     <Description>
