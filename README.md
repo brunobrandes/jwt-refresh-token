@@ -37,8 +37,7 @@ dotnet add package Jwt.Refresh.Token.Cosmos --prerelease
 
 The first step to do is provision your cosmos db, or if you already have it, create the token container id (*choose name you want*) with partitionKey **'/userId'**.
 
-User container is optional. If you want control user data with Jwt Refresh Token library, you need create user container but if you already have other
-user data control, just implement IUserRepository for get user by id and password.
+Implement IUserRepository for get user by id and password. UserId
 
 2. ✯ Configure settings app:
 ```json
@@ -54,7 +53,6 @@ user data control, just implement IUserRepository for get user by id and passwor
   "JwtRefreshTokenCosmos": {
     "ConnectionString": "YOUR_COSMOS_CONNECTIONSTRING",
     "DatabaseId": "YOUR_DATABASEID",
-    "UserContainerId": "YOUR_USER_CONTAINERID",
     "TokenContainerId": "YOUR_TOKEN_CONTAINERID"
   }
 ```

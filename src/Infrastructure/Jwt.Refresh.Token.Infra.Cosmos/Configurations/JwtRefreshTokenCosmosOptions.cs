@@ -10,7 +10,6 @@ namespace Jwt.Refresh.Token.Infra.Cosmos.Configurations
         public string ConnectionString { get; set; }
         public string DatabaseId { get; set; }
         public string TokenContainerId { get; set; }
-        public string UserContainerId { get; set; }
     }
 }
 
