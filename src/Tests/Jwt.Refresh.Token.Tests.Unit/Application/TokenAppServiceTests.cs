@@ -46,26 +46,24 @@ namespace Jwt.Refresh.Token.Tests.Unit.Application
             _userRepositoryMock.Setup(x => x.GetUserIdByIdAndPasswordAsync(_userId, _password, cancellationToken))
                 .ReturnsAsync(_userId);
 
-            _jwtTokenServiceMock.Setup(x => x.GetAccessTokenAsync(_userId, ExpireMinutesInMilliseconds.ONE_MINUTE,
+            _jwtTokenServiceMock.Setup(x => x.GetAccessTokenAsync(_userId, MillisecondsConversion.Minute,
                 cancellationToken))
                 .ReturnsAsync("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyX3Rlc3RAZ21haWwuY29tIn0.R7TGeX7_PJxXfKuojZmgitxlMCdxNQ2MoEuKww6zr4s");
 
             _tokenRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Domain.Entities.Token>(), cancellationToken));
 
-            var token = await _tokenAppService.CreateAsync(_userId, _password, ExpireMinutesInMilliseconds.ONE_MINUTE, _ipAddress,
+            var token = await _tokenAppService.CreateAsync(_userId, _password, MillisecondsConversion.Minute, _ipAddress,
                 cancellationToken);
 
-            token.Error.Should().BeNull();
             token.Status.Should().Be(Domain.Enums.TokenStatus.Authorized);
         }
 
         [Fact]
         public async Task Create_Token_UserIdOrPasswordInvalid_ReturnsUnauhtorized()
         {
-            var token = await _tokenAppService.CreateAsync(string.Empty, string.Empty, ExpireMinutesInMilliseconds.ONE_MINUTE, _ipAddress,
+            var token = await _tokenAppService.CreateAsync(string.Empty, string.Empty, MillisecondsConversion.Minute, _ipAddress,
                 default(CancellationToken));
 
-            token.Error.Should().BeNull();
             token.Status.Should().Be(Domain.Enums.TokenStatus.Unauthorized);
         }
 
@@ -75,10 +73,9 @@ namespace Jwt.Refresh.Token.Tests.Unit.Application
             _userRepositoryMock.Setup(x => x.GetUserIdByIdAndPasswordAsync(_userId, _password, default(CancellationToken)))
             .ReturnsAsync(string.Empty);
 
-            var token = await _tokenAppService.CreateAsync(_userId, _password, ExpireMinutesInMilliseconds.ONE_MINUTE, _ipAddress,
+            var token = await _tokenAppService.CreateAsync(_userId, _password, MillisecondsConversion.Minute, _ipAddress,
                default(CancellationToken));
 
-            token.Error.Should().BeNull();
             token.Status.Should().Be(Domain.Enums.TokenStatus.Unauthorized);
         }
 
@@ -88,10 +85,9 @@ namespace Jwt.Refresh.Token.Tests.Unit.Application
             _userRepositoryMock.Setup(x => x.GetUserIdByIdAndPasswordAsync(_userId, _password, default(CancellationToken)))
             .ThrowsAsync(new Exception("Unexpected error"));
 
-            var token = await _tokenAppService.CreateAsync(_userId, _password, ExpireMinutesInMilliseconds.ONE_MINUTE, _ipAddress,
+            var token = await _tokenAppService.CreateAsync(_userId, _password, MillisecondsConversion.Minute, _ipAddress,
                default(CancellationToken));
 
-            token.Error.Should().NotBeNull();
             token.Status.Should().Be(Domain.Enums.TokenStatus.Error);
         }
     }

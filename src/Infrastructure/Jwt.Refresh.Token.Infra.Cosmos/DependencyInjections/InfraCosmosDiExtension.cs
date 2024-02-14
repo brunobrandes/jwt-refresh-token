@@ -13,7 +13,7 @@ namespace Jwt.Refresh.Token.Infra.Cosmos.DependencyInjections
 {
 	public static class InfraCosmosDiExtension
 	{
-        public static void AddJwtRefreshTokenCosmosServices(this IServiceCollection services, IConfiguration configuration, bool addUserRepository = true)
+        public static void AddJwtRefreshTokenCosmosServices(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtRefreshTokenCosmosOptions = new JwtRefreshTokenCosmosOptions();
 
@@ -35,26 +35,6 @@ namespace Jwt.Refresh.Token.Infra.Cosmos.DependencyInjections
                 }),
                 jwtRefreshTokenCosmosOptions.DatabaseId,
                 jwtRefreshTokenCosmosOptions.TokenContainerId));
-
-            if(addUserRepository)
-            {
-                services
-                .AddScoped<IUserRepository>(x => new UserRepository(new CosmosClient(jwtRefreshTokenCosmosOptions.ConnectionString,
-                new CosmosClientOptions
-                {
-                    ConnectionMode = ConnectionMode.Gateway,
-                    AllowBulkExecution = true,
-                    SerializerOptions = new CosmosSerializationOptions
-                    {
-                        Indented = true,
-                        PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase,
-                        IgnoreNullValues = true
-                    }
-                }),
-                jwtRefreshTokenCosmosOptions.DatabaseId,
-                jwtRefreshTokenCosmosOptions.UserContainerId));
-            }
-
         }
     }
 }

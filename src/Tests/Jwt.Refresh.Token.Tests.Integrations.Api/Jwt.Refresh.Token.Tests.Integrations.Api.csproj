@@ -28,4 +28,8 @@
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="UserRepositoryMock.cs" />
+  </ItemGroup>
 </Project>

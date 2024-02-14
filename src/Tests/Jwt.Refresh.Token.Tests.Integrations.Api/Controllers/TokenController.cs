@@ -28,7 +28,7 @@ public class TokenController : ControllerBase
 
     private string GetRemoteIpAddress()
     {
-        return this.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+        return Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
     }
 
     [HttpPost("")]

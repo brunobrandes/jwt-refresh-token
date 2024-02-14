@@ -1,14 +1,10 @@
 ﻿using System;
-using Jwt.Refresh.Token.Domain.Constants;
 using Jwt.Refresh.Token.Domain.Services.Interfaces;
 using System.Threading.Tasks;
 using Jwt.Refresh.Token.Application.Interfaces;
 using Jwt.Refresh.Token.Domain.Entities.Repositories;
 using System.Threading;
-using Jwt.Refresh.Token.Domain.DataTransferObjects;
 using Jwt.Refresh.Token.Domain.Enums;
-using System.Net;
-using Jwt.Refresh.Token.Domain.Entities;
 using Jwt.Refresh.Token.Domain.Extensions;
 
 namespace Jwt.Refresh.Token.Application
@@ -51,8 +47,7 @@ namespace Jwt.Refresh.Token.Application
             }
             catch (Exception ex)
             {
-                return new Domain.DataTransferObjects.Token(userId, TokenStatus.Error,
-                    new TokenError("Unexpected error create async token", ex));
+                return new Domain.DataTransferObjects.Token(userId, TokenStatus.Error);
             }
         }
 
@@ -80,8 +75,7 @@ namespace Jwt.Refresh.Token.Application
             }
             catch (Exception ex)
             {
-                return new Domain.DataTransferObjects.Token(userId, TokenStatus.Error,
-                    new TokenError("Unexpected error refresh async token", ex));
+                return new Domain.DataTransferObjects.Token(userId, TokenStatus.Error);
             }            
         }
 
@@ -89,12 +83,10 @@ namespace Jwt.Refresh.Token.Application
         {
             try
             {
-                var token = await _tokenRepository.GetByIdAndUserIdAsync(id, userId);
-
-                if (token != null)
-                    return await _tokenRepository.UpdateAsync(token.ToRevokeTokenEntity(ipAddress), cancellationToken);
-
-                return false;
+                var token = await _tokenRepository.GetByIdAndUserIdAsync(id, userId, cancellationToken);
+                if (token is null) return false;
+                
+                return await _tokenRepository.UpdateAsync(token.ToRevokeTokenEntity(ipAddress), cancellationToken);
             }
             catch
             {

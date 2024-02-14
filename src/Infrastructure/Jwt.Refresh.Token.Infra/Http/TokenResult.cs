@@ -21,7 +21,7 @@ namespace Jwt.Refresh.Token.Infra.Http
             context.HttpContext.Response.StatusCode = (int)_token.Status;
             context.HttpContext.Response.ContentType = "application/json";
 
-            if(_token.Status == TokenStatus.Authorized || _token.Status == TokenStatus.Error)
+            if(_token.Status == TokenStatus.Authorized)
                 await context.HttpContext.Response.Body.WriteAsync(JsonSerializer.SerializeToUtf8Bytes<Domain.DataTransferObjects.Token>(_token));
         }
     }

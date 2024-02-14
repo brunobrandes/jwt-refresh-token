@@ -44,7 +44,7 @@ namespace Jwt.Refresh.Token.Infra.Cosmos.Entities.Repositories
         {
             var queryResultSetIterator = _container.GetItemQueryIterator<TEntity>(queryDefinition, requestOptions: new QueryRequestOptions
             {
-                PartitionKey =  new PartitionKey(partitionKey)
+                PartitionKey =  new PartitionKey(partitionKey),
             });
 
             List<TEntity> allItems = new List<TEntity>();

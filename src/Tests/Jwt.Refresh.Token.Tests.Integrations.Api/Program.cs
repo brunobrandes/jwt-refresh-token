@@ -2,10 +2,6 @@
 using Jwt.Refresh.Token.Infra.Cosmos.DependencyInjections;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using Jwt.Refresh.Token.Domain.Services.Interfaces;
-using Jwt.Refresh.Token.Domain.Configurations;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authorization;

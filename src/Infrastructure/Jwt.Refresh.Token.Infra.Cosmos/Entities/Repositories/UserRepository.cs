@@ -31,7 +31,7 @@ namespace Jwt.Refresh.Token.Infra.Cosmos.Entities.Repositories
         {
             try
             {
-                var user = await this.GetAsync(id, id);
+                var user = await GetAsync(id, id);
 
                 if (user.Status == UserStatus.Deactivated || user.Password != password)
                     return string.Empty;
@@ -48,7 +48,7 @@ namespace Jwt.Refresh.Token.Infra.Cosmos.Entities.Repositories
         {
             try
             {
-                return await this.UpdateAsync(user, user.Id, user.Id, cancellationToken);
+                return await UpdateAsync(user, user.Id, user.Id, cancellationToken);
             }
             catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
             {

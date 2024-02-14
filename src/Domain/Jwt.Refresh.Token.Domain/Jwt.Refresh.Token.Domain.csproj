@@ -43,11 +43,14 @@
     <Folder Include="Configurations\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-    <PackageReference Include="System.Text.Json" Version="7.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Services\Interfaces\IAlgorithmService.cs" />
     <Compile Remove="Configurations\JwtRefreshTokenAlgorithmOptions.cs" />
+    <Compile Remove="Entities\Repositories\IUserManagementRepository.cs" />
+    <Compile Remove="Enums\UserStatus.cs" />
+    <Compile Remove="Entities\User.cs" />
   </ItemGroup>
 </Project>

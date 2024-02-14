@@ -6,7 +6,7 @@ namespace Jwt.Refresh.Token.Domain.Entities.Repositories
 {
     public interface IUserRepository
     {
-        Task<string> GetUserIdByIdAndPasswordAsync(string id, string password, CancellationToken cancellationToken = default(CancellationToken));
+        Task<string> GetUserIdByIdAndPasswordAsync(string id, string password, CancellationToken cancellationToken = default);
     }
 }
 
